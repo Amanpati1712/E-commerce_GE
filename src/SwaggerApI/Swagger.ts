@@ -1,13 +1,12 @@
 import swaggerJSDoc from 'swagger-jsdoc' ;
 import swaggerUi from 'swagger-ui-express';
 
-// Basic Swagger setup
 const swaggerOptions = {
   definition: {
-    openapi: '3.0.0', // OpenAPI version
+    openapi: '3.0.0',
     info: {
-      title: 'E-Commerce API', // API Title
-      version: '1.0.0', // API Version
+      title: 'E-Commerce API',
+      version: '1.0.0',
       description: 'API documentation for the E-commerce website',
     },
     servers: [
@@ -16,9 +15,9 @@ const swaggerOptions = {
       },
     ],
   },
-  // Path to the API specs
-  apis: ['src/route/*.ts'], // Path to your route files (JSDoc comments)
+  apis: ['./src/SwaggerApi/*.ts'], // Check if your files are actually here
 };
+
 
 // Initialize Swagger
 const swaggerSpec = swaggerJSDoc(swaggerOptions);

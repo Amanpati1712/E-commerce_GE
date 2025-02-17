@@ -1,8 +1,9 @@
 
-import { userAuth } from "../Entities/User";
+import { Feedback,Offer, Product, userAuth } from "../../Modules/User/Entities/User";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import { Order } from "../../Modules/Order/Entities/orderEntities";
 
 dotenv.config(); // Load environment variables
 export const AppDataSource = new DataSource({
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [userAuth], // Adjust path if needed
+  entities: [userAuth,Product,Order,Feedback,Offer], // Adjust path if needed
   synchronize: true, // Change to false in production
   logging: true,
 });
