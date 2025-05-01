@@ -22,16 +22,15 @@ export const getAllData = async (req: Request, res: Response) => {
 
 export const userRegister = async (req:MulterRequest, res: Response) => {
     try {
-        console.log("Request received:", req.body); // Debug request body
-        console.log("File received:", req.file); // Debug uploaded file
-        const { name, email, password, role, profilePicture } = req.body;
+        // console.log("File received:", req.file); // Debug uploaded file
+        const { name, email, password, role} = req.body;
        
-        let uploadedImageUrl = profilePicture; // Default to existing profile picture URL
+        // let uploadedImageUrl = profilePicture; // Default to existing profile picture URL
 
-        if (req.file) {
-            uploadedImageUrl = await uploadToGCP(req.file); // Upload to GCP
-        }
-        const result = await registerUser(name, email, password,role ,uploadedImageUrl);
+        // if (req.file) {
+        //     uploadedImageUrl = await uploadToGCP(req.file); // Upload to GCP
+        // }
+        const result = await registerUser(name, email, password,role );
         res.status(201).json(result);
     } catch (error: any) {
         logger.error(error.message);

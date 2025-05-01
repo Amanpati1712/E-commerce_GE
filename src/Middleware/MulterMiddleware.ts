@@ -26,7 +26,7 @@ const getSignedUrl = async (fileName: string): Promise<string> => {
 
     const [url] = await file.getSignedUrl({
         action: "read",
-        expires: Date.now() + 1000 * 60 * 60, // Expires in 1 hour
+        expires: "2100-01-01T00:00:00Z", // Expires in 100+ years
     });
 
     return url;

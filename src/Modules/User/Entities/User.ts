@@ -1,12 +1,13 @@
 import { 
-    Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, CreateDateColumn, OneToMany 
+    Entity, PrimaryGeneratedColumn,PrimaryColumn, Column, ManyToOne, ManyToMany, JoinTable, CreateDateColumn, OneToMany 
 } from "typeorm";
-import { IsEmail,IsDate, IsNotEmpty, IsOptional, MinLength, IsString, Matches,IsNumber, Min,Max, IsBoolean } from "class-validator";
+import { IsEmail,IsDate, IsNotEmpty, IsOptional, MinLength, IsString, Matches,IsNumber, Min,Max, IsBoolean, IsIn } from "class-validator";
 import { Order } from "../../Order/Entities/orderEntities";
+
 
 @Entity()
 export class userAuth {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn() // This makes `id` auto-incrementing
     id: number;
 
     @Column({ nullable: false, default: 'Unknown' })
@@ -41,8 +42,52 @@ export class userAuth {
 
     @OneToMany(() => Order, (order) => order.user)
     orders: Order[];
+
+    @OneToMany(() => AddToCart, (cart) => cart.user, { cascade: true })
+    cart: AddToCart[];
+
+    @OneToMany(() => Address, (address) => address.user, { cascade: true })
+  addresses: Address[];
 }
 
+
+@Entity()
+export class Address {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty({ message: "Street is required" })
+  street: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty({ message: "City is required" })
+  city: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty({ message: "State is required" })
+  state: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty({ message: "Country is required" })
+  country: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty({ message: "Pincode is required" })
+  pincode: string;
+
+  @Column({ default: false })
+  @IsBoolean()
+  isDefault: boolean;
+
+  @ManyToOne(() => userAuth, (user) => user.addresses, { onDelete: "CASCADE" })
+  user: userAuth;
+}
 
 //product table
 
@@ -68,23 +113,32 @@ export class Product {
     @Min(0, { message: "New price must be at least 0" })
     product_New_Price: number;
 
+    @Column({ type: 'int', default: 0 })
+    quantity: number;
+    
+
     @Column()
     @IsNotEmpty({ message: "Category is required" })
     @IsString({ message: "Category must be a string" })
     category: string;
 
-    @Column({ default: true })
-    @IsBoolean({ message: "Available must be a boolean" })
-    available: boolean;
 
-    @ManyToMany(() => Order, (order) => order.products)
+    @Column({ nullable: true })
+    @IsString({ message: "Image URL must be a string" })
+    imageUrl?: string;
+
+    @OneToMany(() => Order, (order) => order.products)
     orders: Order[];
+
     
     @OneToMany(() => Feedback, (feedback) => feedback.product)
     feedbacks: Feedback[];
 
     @OneToMany(() => Offer, (offer) => offer.product)
     offers: Offer[];
+
+    @OneToMany(() => AddToCart, (cart) => cart.product, { cascade: true }) // Fixed relation
+    cart: AddToCart[];
 }
 
 
@@ -152,4 +206,53 @@ export class Offer {
     endDate: Date;
 
    
+}
+
+
+//add to cart
+
+@Entity()
+export class AddToCart {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @ManyToOne(() => userAuth, (user) => user.cart, { onDelete: "CASCADE" })
+    @IsNotEmpty({ message: "User is required" })
+    user: userAuth;
+
+    @ManyToOne(() => Product, (product) => product.cart, { onDelete: "CASCADE" }) // Fixed relation
+    @IsNotEmpty({ message: "At least one product is required" })
+    product: Product; 
+
+    @Column({ type: "int", default: 1 })
+    @IsNumber({}, { message: "Quantity must be a number" })
+    @Min(1, { message: "Quantity must be at least 1" })
+    quantity: number;
+    
+    @Column({ default: "M" })
+    @IsIn(["S", "M", "L", "XL", "XXL"], { message: "Size must be one of  S, M, L, XL, XXL" })
+    size: string;
+
+
+    @CreateDateColumn()
+    addedAt: Date;
+}
+
+
+@Entity()
+export class Payment {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  razorpay_order_id: string;
+
+  @Column()
+  razorpay_payment_id: string;
+
+  @Column()
+  razorpay_signature: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

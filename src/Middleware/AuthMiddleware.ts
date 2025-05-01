@@ -22,6 +22,7 @@ const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunctio
   
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET as string); // Decode the token
+      console.log(decoded);
       req.user = decoded as { id: number, role: string }; // Attach decoded user to req.user
       console.log(req.user); // Debugging line to check user
       next();

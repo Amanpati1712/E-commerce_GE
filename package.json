@@ -9,7 +9,8 @@
     "build": "tsc -p .",
     "start:prod": "node ./dist/app.js",
     "test": "jest",
-     "typeorm": "typeorm-ts-node-commonjs"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "reset-sequence": "ts-node src/Script/resetSequence.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +19,13 @@
     "@google-cloud/storage": "^7.15.1",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "pg": "^8.13.1",
+    "razorpay": "^2.9.6",
     "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
@@ -32,6 +35,7 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/multer": "^1.4.12",

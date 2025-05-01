@@ -6,8 +6,8 @@ const router = express.Router();
 
 
 
-router.post('/userRegister', upload.single("profilePicture"), userRegister);
-
+// router.post('/userRegister', upload.single("profilePicture"), userRegister);
+router.post('/userRegister', userRegister);
 router.post('/userLogin', userLogin);
 
 router.get('/getAllData', getAllData);

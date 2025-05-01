@@ -1,5 +1,5 @@
 
-import { Feedback,Offer, Product, userAuth } from "../../Modules/User/Entities/User";
+import { Address, AddToCart, Feedback,Offer, Payment, Product, userAuth } from "../../Modules/User/Entities/User";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [userAuth,Product,Order,Feedback,Offer], // Adjust path if needed
+  entities: [userAuth,Product,Order,Feedback,Offer,AddToCart,Address,Payment], // Adjust path if needed
   synchronize: true, // Change to false in production
   logging: true,
 });

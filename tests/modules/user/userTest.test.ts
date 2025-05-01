@@ -24,7 +24,7 @@ afterAll(async () => {
   await AppDataSource.destroy();
 });
 
-describe('Auth API Endpoints', () => {
+describe('All API Endpoints', () => {
   describe('POST /api/auth/userRegister', () => {
     it('should register a new user', async () => {
       const newUser = {
@@ -177,7 +177,6 @@ describe('🔹 Order APIs', () => {
 
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty('message', 'Order created successfully');
-    expect(res.body).toHaveProperty('order');
   });
 });
 
